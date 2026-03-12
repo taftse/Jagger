@@ -48,7 +48,9 @@ Route::get('/providers/idpsp_registration/advanced', [EntityEditController::clas
 
 // Federations
 Route::get('/federations/federation_registration', [FederationsController::class, 'fedregistration']);
-Route::get('/metadata/federatation/{id}/metadata.xml', [FederationManageController::class, 'show']);
+Route::get('/metadata/federation/{id}/metadata.xml', [FederationManageController::class, 'show']);
+// Backward-compatible redirect for original misspelling in CodeIgniter routes
+Route::get('/metadata/federatation/{id}/metadata.xml', fn ($id) => redirect("/metadata/federation/{$id}/metadata.xml", 301));
 
 // Reports
 Route::get('/reports/awaiting', [ReportsController::class, 'awaitingList']);
