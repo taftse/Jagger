@@ -3,15 +3,16 @@
   "description": "Federation(s) (SAML)  management",
   "license": "MIT",
   "require": {
-    "doctrine/orm": "2.4.*",
-    "zendframework/zend-permissions-acl": "^2.6",
-    "mtdowling/cron-expression": "1.1.*",
-    "phpseclib/phpseclib": "2.0.*",
-    "lcobucci/jwt": "3.2.*",
-    "php-amqplib/php-amqplib": "2.6.*",
-    "robrichards/xmlseclibs": "^3.0"
+    "php": "^8.2",
+    "doctrine/orm": "^2.18",
+    "laminas/laminas-permissions-acl": "^2.13",
+    "dragonmantank/cron-expression": "^3.3",
+    "phpseclib/phpseclib": "^3.0.36",
+    "lcobucci/jwt": "^5.4",
+    "php-amqplib/php-amqplib": "^3.6",
+    "robrichards/xmlseclibs": "^3.1"
   },
   "require-dev": {
-    "phpmd/phpmd": "^2.6"
+    "phpmd/phpmd": "^2.15"
   }
 }
