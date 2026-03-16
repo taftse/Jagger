@@ -1,0 +1,35 @@
+<?php
+
+use App\Models\Coc;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
+it('has correct table name', function (): void {
+    expect((new Coc())->getTable())->toBe('coc');
+});
+
+it('has correct fillable attributes', function (): void {
+    $fillable = (new Coc())->getFillable();
+    expect($fillable)->toContain('name')
+        ->toContain('url')
+        ->toContain('is_enabled');
+});
+
+it('casts is_enabled as boolean', function (): void {
+    $casts = (new Coc())->getCasts();
+    expect($casts['is_enabled'])->toBe('boolean');
+});
+
+it('has no timestamps', function (): void {
+    expect((new Coc())->usesTimestamps())->toBeFalse();
+});
+
+it('belongs to many providers', function (): void {
+    expect((new Coc())->providers())->toBeInstanceOf(BelongsToMany::class);
+});
+
+it('can be created via factory', function (): void {
+    $coc = Coc::factory()->make();
+    expect($coc)->toBeInstanceOf(Coc::class)
+        ->and($coc->name)->not->toBeNull()
+        ->and($coc->url)->not->toBeNull();
+});
