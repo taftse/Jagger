@@ -17,7 +17,7 @@ it('can create a provider with ProviderType enum', function (): void {
     $provider = Provider::factory()->idp()->create();
 
     $this->assertDatabaseHas('provider', ['id' => $provider->id]);
-    expect($provider->type)->toBe(ProviderType::IDP);
+    expect($provider->type)->toBe(ProviderType::IdentityProvider);
 });
 
 it('can associate certificates with snake_case fields', function (): void {
@@ -25,12 +25,12 @@ it('can associate certificates with snake_case fields', function (): void {
 
     $cert = Certificate::factory()->create([
         'provider_id' => $provider->id,
-        'type' => CertificateType::SpSso,
+        'type' => CertificateType::ServiceProviderSSO,
         'cert_usage' => CertificateUsage::Encryption,
     ]);
 
     expect($provider->certificates()->count())->toBe(1)
-        ->and($cert->type)->toBe(CertificateType::SpSso)
+        ->and($cert->type)->toBe(CertificateType::ServiceProviderSSO)
         ->and($cert->cert_usage)->toBe(CertificateUsage::Encryption);
 });
 

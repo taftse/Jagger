@@ -19,7 +19,7 @@ class AttributeRequirementFactory extends Factory
             'attribute_id' => Attribute::factory(),
             'provider_id' => null,
             'federation_id' => null,
-            'type' => fake()->randomElement(['SP', 'FED']),
+            'type' => fake()->randomElement([\App\Enums\AttributeRequirementType::ServiceProvider, \App\Enums\AttributeRequirementType::Federation]),
             'status' => fake()->optional()->randomElement(['required', 'optional']),
             'reason' => fake()->optional()->sentence(),
         ];

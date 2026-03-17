@@ -37,6 +37,6 @@ it('belongs to a Provider', function (): void {
 it('can be created via factory', function (): void {
     $cert = Certificate::factory()->make();
     expect($cert)->toBeInstanceOf(Certificate::class)
-        ->and($cert->type)->toBe(CertificateType::IdpSso)
+        ->and($cert->type)->toBe(CertificateType::IdentityProviderSSO)
         ->and($cert->cert_usage)->toBe(CertificateUsage::Signing);
 });

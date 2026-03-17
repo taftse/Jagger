@@ -21,8 +21,8 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => bcrypt('password'),
-            'old_password' => null,
-            'old_salt' => null,
+            'old_password' => sha1('password' . 'testsalt'),
+            'old_salt' => 'testsalt',
             'given_name' => fake()->firstName(),
             'surname' => fake()->lastName(),
             'user_pref' => null,
@@ -33,8 +33,13 @@ class UserFactory extends Factory
             'is_validated' => true,
             'last_login' => null,
             'last_ip' => null,
-            'remember_token' => \Illuminate\Support\Str::random(10),
+            'remember_token' => Str::random(10),
         ];
+    }
+
+    public function unverified(): static
+    {
+        return $this->state(['email_verified_at' => null]);
     }
 
     public function disabled(): static

@@ -14,7 +14,7 @@ class ProviderFactory extends Factory
 
     public function definition(): array
     {
-        $type = fake()->randomElement([\App\Enums\ProviderType::IDP, \App\Enums\ProviderType::SP, \App\Enums\ProviderType::Both]);
+        $type = fake()->randomElement([\App\Enums\ProviderType::IdentityProvider, \App\Enums\ProviderType::ServiceProvider, \App\Enums\ProviderType::Both]);
 
         return [
             'name' => fake()->company(),
@@ -57,11 +57,11 @@ class ProviderFactory extends Factory
 
     public function idp(): static
     {
-        return $this->state(['type' => \App\Enums\ProviderType::IDP]);
+        return $this->state(['type' => \App\Enums\ProviderType::IdentityProvider]);
     }
 
     public function sp(): static
     {
-        return $this->state(['type' => \App\Enums\ProviderType::SP]);
+        return $this->state(['type' => \App\Enums\ProviderType::ServiceProvider]);
     }
 }

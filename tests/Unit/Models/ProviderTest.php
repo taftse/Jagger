@@ -56,10 +56,10 @@ it('has codesOfConduct BelongsToMany', function (): void {
 it('can be created via factory as IDP', function (): void {
     $provider = Provider::factory()->idp()->make();
     expect($provider)->toBeInstanceOf(Provider::class)
-        ->and($provider->type)->toBe(ProviderType::IDP);
+        ->and($provider->type)->toBe(ProviderType::IdentityProvider);
 });
 
 it('can be created via factory as SP', function (): void {
     $provider = Provider::factory()->sp()->make();
-    expect($provider->type)->toBe(ProviderType::SP);
+    expect($provider->type)->toBe(ProviderType::ServiceProvider);
 });

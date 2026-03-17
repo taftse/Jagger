@@ -27,12 +27,12 @@ it('can create attribute requirement linked to provider', function (): void {
         'attribute_id' => $attr->id,
         'provider_id' => $provider->id,
         'federation_id' => null,
-        'type' => AttributeRequirementType::SP,
+        'type' => AttributeRequirementType::ServiceProvider,
         'status' => AttributeRequirementStatus::Required,
     ]);
 
     expect($req->provider->id)->toBe($provider->id)
-        ->and($req->type)->toBe(AttributeRequirementType::SP)
+        ->and($req->type)->toBe(AttributeRequirementType::ServiceProvider)
         ->and($req->status)->toBe(AttributeRequirementStatus::Required);
 });
 

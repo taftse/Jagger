@@ -16,7 +16,7 @@ class CertificateFactory extends Factory
     public function definition(): array
     {
         return [
-            'type' => \App\Enums\CertificateType::IdpSso,
+            'type' => \App\Enums\CertificateType::IdentityProviderSSO,
             'cert_usage' => \App\Enums\CertificateUsage::Signing,
             'cert_type' => 'X509Certificate',
             'cert_data' => fake()->sha256(),

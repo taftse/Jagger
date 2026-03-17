@@ -6,8 +6,8 @@ namespace App\Enums;
 
 enum CertificateType: string
 {
-    case IdpSso = 'idpsso';
-    case SpSso = 'spsso';
+    case IdentityProviderSSO = 'idpsso';
+    case ServiceProviderSSO = 'spsso';
     case Sso = 'sso';
     case Encryption = 'encryption';
 }

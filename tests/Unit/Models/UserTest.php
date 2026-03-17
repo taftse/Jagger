@@ -56,7 +56,14 @@ it('can be created via factory', function (): void {
     $user = User::factory()->make();
     expect($user)->toBeInstanceOf(User::class)
         ->and($user->email)->not->toBeNull()
-        ->and($user->is_enabled)->toBeTrue();
+        ->and($user->is_enabled)->toBeTrue()
+        ->and($user->old_password)->not->toBeNull()
+        ->and($user->old_salt)->toBe('testsalt');
+});
+
+it('factory unverified state works', function (): void {
+    $user = User::factory()->unverified()->make();
+    expect($user->email_verified_at)->toBeNull();
 });
 
 it('factory disabled state works', function (): void {

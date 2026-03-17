@@ -6,6 +6,6 @@ namespace App\Enums;
 
 enum AttributeRequirementType: string
 {
-    case SP = 'SP';
+    case ServiceProvider = 'ServiceProvider';
     case Federation = 'FED';
 }
