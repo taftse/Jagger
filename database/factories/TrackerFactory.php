@@ -15,11 +15,11 @@ class TrackerFactory extends Factory
     public function definition(): array
     {
         return [
-            'resourcetype' => fake()->optional()->randomElement(['idp', 'sp', 'fed', 'user']),
+            'resource_type' => fake()->optional()->randomElement(['idp', 'sp', 'fed', 'user']),
             'subtype' => fake()->optional()->word(),
-            'resourcename' => fake()->optional()->domainName(),
-            'sourceip' => fake()->optional()->ipv4(),
-            'useragent' => fake()->optional()->userAgent(),
+            'resource_name' => fake()->optional()->domainName(),
+            'source_ip' => fake()->optional()->ipv4(),
+            'user_agent' => fake()->optional()->userAgent(),
             'user' => fake()->optional()->userName(),
             'created_at' => now(),
             'detail' => fake()->optional()->sentence(),

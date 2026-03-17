@@ -2,15 +2,19 @@
 
 namespace App\Models;
 
-use Database\Factories\StaticMetadataFactory;
+use Database\Factories\MetadataFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class StaticMetadata extends Model
+/**
+ * Stores the static/cached XML metadata for a Provider.
+ */
+class Metadata extends Model
 {
-    /** @use HasFactory<StaticMetadataFactory> */
-    use HasFactory;
+    /** @use HasFactory<MetadataFactory> */
+    use HasFactory, HasUuids;
 
     protected $table = 'provider_metadata';
 

@@ -9,18 +9,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('attribute', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('name', 128)->unique();
-            $table->string('fullname', 255);
+            $table->string('full_name', 255);
             $table->string('oid', 255);
             $table->string('urn', 255);
-            $table->boolean('inmetadata')->default(true);
+            $table->boolean('in_metadata')->default(true);
             $table->text('description')->nullable();
         });
     }
 
-    public function down(): void
-    {
-        Schema::dropIfExists('attribute');
-    }
+    public function down(): void {}
 };

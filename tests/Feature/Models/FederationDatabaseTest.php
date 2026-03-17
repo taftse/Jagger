@@ -2,41 +2,50 @@
 
 use App\Models\Federation;
 use App\Models\FederationCategory;
-use App\Models\FederationMember;
-use App\Models\FederationValidator;
 use App\Models\Provider;
 
-it('can create and retrieve a federation', function (): void {
-    $federation = Federation::factory()->create();
-    expect(Federation::find($federation->id))->not->toBeNull()
-        ->and(Federation::find($federation->id)->name)->toBe($federation->name);
+uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+
+it('can create a federation', function (): void {
+    $fed = Federation::factory()->create();
+
+    $this->assertDatabaseHas('federation', ['id' => $fed->id]);
 });
 
-it('can add a member to a federation', function (): void {
-    $federation = Federation::factory()->create();
+it('members() links providers via FederationMember pivot', function (): void {
+    $fed = Federation::factory()->create();
     $provider = Provider::factory()->create();
 
-    FederationMember::factory()->create([
-        'federation_id' => $federation->id,
-        'provider_id' => $provider->id,
+    $fed->members()->attach($provider->id, [
+        'join_state' => 1,
+        'is_disabled' => false,
+        'is_banned' => false,
     ]);
 
-    expect($federation->membership()->count())->toBe(1)
-        ->and($federation->membership()->first()->provider_id)->toBe($provider->id);
+    expect($fed->members()->count())->toBe(1)
+        ->and($fed->members()->first()->id)->toBe($provider->id);
 });
 
-it('can attach a category to a federation', function (): void {
-    $federation = Federation::factory()->create();
-    $category = FederationCategory::factory()->create();
+it('federation pivot has join_state and flags', function (): void {
+    $fed = Federation::factory()->create();
+    $provider = Provider::factory()->create();
 
-    $federation->categories()->attach($category->id);
+    $fed->members()->attach($provider->id, [
+        'join_state' => 2,
+        'is_disabled' => true,
+        'is_banned' => false,
+    ]);
 
-    expect($federation->categories()->count())->toBe(1);
+    $pivot = $fed->members()->withPivot(['join_state', 'is_disabled', 'is_banned'])->first()->pivot;
+    expect($pivot->join_state)->toBe(2)
+        ->and($pivot->is_disabled)->toBe(1);
 });
 
-it('can have validators', function (): void {
-    $federation = Federation::factory()->create();
-    FederationValidator::factory()->create(['federation_id' => $federation->id]);
+it('can attach categories to federation', function (): void {
+    $fed = Federation::factory()->create();
+    $cat = FederationCategory::factory()->create();
 
-    expect($federation->validators()->count())->toBe(1);
+    $fed->categories()->attach($cat);
+
+    expect($fed->categories()->count())->toBe(1);
 });

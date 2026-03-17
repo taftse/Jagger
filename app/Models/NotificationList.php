@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Database\Factories\NotificationListFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,48 +11,42 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class NotificationList extends Model
 {
     /** @use HasFactory<NotificationListFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'notificationlist';
 
-    public $timestamps = false;
-
     protected $fillable = [
-        'subscriber',
-        'notificationtype',
+        'user_id',
+        'notification_type',
         'type',
-        'provider',
-        'federation',
+        'provider_id',
+        'federation_id',
         'email',
         'phone',
-        'isenabled',
-        'isapproved',
-        'created',
-        'updated',
+        'is_enabled',
+        'is_approved',
     ];
 
     protected function casts(): array
     {
         return [
-            'isenabled' => 'boolean',
-            'isapproved' => 'boolean',
-            'created' => 'datetime',
-            'updated' => 'datetime',
+            'is_enabled' => 'boolean',
+            'is_approved' => 'boolean',
         ];
     }
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'subscriber');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function provider(): BelongsTo
     {
-        return $this->belongsTo(Provider::class, 'provider');
+        return $this->belongsTo(Provider::class, 'provider_id');
     }
 
     public function federation(): BelongsTo
     {
-        return $this->belongsTo(Federation::class, 'federation');
+        return $this->belongsTo(Federation::class, 'federation_id');
     }
 }

@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('federation', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('name', 128)->unique();
             $table->string('sysname', 128)->unique()->nullable();
             $table->string('urn', 255)->unique();
@@ -32,26 +32,21 @@ return new class extends Migration
         });
 
         Schema::create('fedcategory', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('shortname', 28)->unique();
-            $table->string('descname', 56);
+            $table->uuid('id')->primary();
+            $table->string('short_name', 28)->unique();
+            $table->string('desc_name', 56);
             $table->string('description', 512);
-            $table->boolean('isdefault')->default(false);
+            $table->boolean('is_default')->default(false);
         });
 
         Schema::create('fedcategory_members', function (Blueprint $table) {
-            $table->unsignedInteger('federation_id');
-            $table->unsignedInteger('fedcategory_id');
+            $table->uuid('federation_id');
+            $table->uuid('fedcategory_id');
             $table->primary(['federation_id', 'fedcategory_id']);
             $table->foreign('federation_id')->references('id')->on('federation')->cascadeOnDelete();
             $table->foreign('fedcategory_id')->references('id')->on('fedcategory')->cascadeOnDelete();
         });
     }
 
-    public function down(): void
-    {
-        Schema::dropIfExists('fedcategory_members');
-        Schema::dropIfExists('fedcategory');
-        Schema::dropIfExists('federation');
-    }
+    public function down(): void {}
 };

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Database\Factories\ProviderStatsDefFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,24 +12,24 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class ProviderStatsDef extends Model
 {
     /** @use HasFactory<ProviderStatsDefFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'providerstatsdef';
 
     protected $fillable = [
-        'shortname',
-        'titlename',
+        'short_name',
+        'title_name',
         'provider_id',
         'type',
-        'predefinedcol',
+        'predefined_col',
         'method',
-        'formattype',
-        'sourceurl',
-        'accesstype',
-        'authuser',
-        'authpass',
-        'displayoptions',
-        'postoptions',
+        'format_type',
+        'source_url',
+        'access_type',
+        'auth_user',
+        'auth_pass',
+        'display_options',
+        'post_options',
         'description',
         'overwrite',
     ];
@@ -37,8 +38,6 @@ class ProviderStatsDef extends Model
     {
         return [
             'overwrite' => 'boolean',
-            'created_at' => 'datetime',
-            'updated_at' => 'datetime',
         ];
     }
 
@@ -47,8 +46,8 @@ class ProviderStatsDef extends Model
         return $this->belongsTo(Provider::class, 'provider_id');
     }
 
-    public function statsCollection(): HasMany
+    public function statsCollections(): HasMany
     {
-        return $this->hasMany(ProviderStatsCollection::class, 'statdefinition_id');
+        return $this->hasMany(ProviderStatsCollection::class, 'stats_def_id');
     }
 }

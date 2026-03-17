@@ -9,22 +9,22 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('invitation', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('token', 32);
-            $table->string('validationkey', 32);
-            $table->string('mailfrom', 255);
-            $table->string('mailto', 255);
-            $table->string('created_at', 255);
-            $table->string('validto', 255);
+            $table->uuid('id')->primary();
+            $table->string('token', 36)->unique();
+            $table->string('validation_key', 36);
+            $table->string('mail_from', 255);
+            $table->string('mail_to', 255);
+            $table->dateTime('valid_till')->nullable();
             $table->boolean('is_valid')->default(true);
-            $table->string('targettype', 32);
-            $table->string('targetid', 32);
+            $table->string('target_type', 128)->nullable();
+            $table->uuid('target_id')->nullable();
             $table->string('actiontype', 32);
             $table->string('actionvalue', 32);
+            $table->timestamps();
         });
 
         Schema::create('jcrontab', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('jminute', 255)->nullable();
             $table->string('jhour', 255)->nullable();
             $table->string('jdayofmonth', 255)->nullable();
@@ -41,7 +41,7 @@ return new class extends Migration
         });
 
         Schema::create('maillocalization', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('mgroup', 20);
             $table->string('lang', 6);
             $table->text('msgbody');
@@ -52,7 +52,7 @@ return new class extends Migration
         });
 
         Schema::create('mailqueue', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('deliverytype', 10);
             $table->string('rcptto', 256);
             $table->string('msubject', 128);
@@ -66,16 +66,16 @@ return new class extends Migration
         });
 
         Schema::create('partnership', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('provider_id');
+            $table->uuid('partner_id');
             $table->string('type');
-            $table->unsignedBigInteger('provider_id')->nullable();
-            $table->unsignedInteger('partner_id')->nullable();
+            $table->primary(['provider_id', 'partner_id']);
             $table->foreign('provider_id')->references('id')->on('provider')->nullOnDelete();
             $table->foreign('partner_id')->references('id')->on('partner')->nullOnDelete();
         });
 
         Schema::create('preferences', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->uuid('id')->primary();
             $table->string('name', 30)->unique();
             $table->string('stype', 12);
             $table->string('scategory', 10);
@@ -87,7 +87,7 @@ return new class extends Migration
         });
 
         Schema::create('staticpage', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->uuid('id')->primary();
             $table->string('pcode', 25)->unique();
             $table->string('pcategory', 25)->nullable();
             $table->string('ptitle', 128)->nullable();
@@ -98,51 +98,40 @@ return new class extends Migration
         });
 
         Schema::create('tracker', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('resourcetype', 25)->nullable();
+            $table->uuid('id')->primary();
+            $table->string('resource_type', 25)->nullable();
             $table->string('subtype', 25)->nullable();
-            $table->string('resourcename', 128)->nullable();
-            $table->string('sourceip', 40)->nullable();
-            $table->string('useragent', 128)->nullable();
+            $table->string('resource_name', 128)->nullable();
+            $table->string('source_ip', 40)->nullable();
+            $table->string('user_agent', 128)->nullable();
             $table->string('user', 256)->nullable();
             $table->dateTime('created_at');
             $table->text('detail')->nullable();
-            $table->index('resourcetype', 'resourcetype_idx');
+            $table->index('resource_type', 'resourcetype_idx');
             $table->index('subtype', 'subtype_idx');
         });
 
         Schema::create('fedvalidator', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->uuid('id')->primary();
             $table->string('name', 20);
-            $table->unsignedInteger('federation_id');
+            $table->uuid('federation_id');
             $table->boolean('is_enabled')->default(false);
             $table->boolean('is_mandatory')->default(false);
-            $table->boolean('is_regenabled')->default(false);
+            $table->boolean('is_reg_enabled')->default(false);
             $table->string('url', 256);
             $table->string('method', 4);
-            $table->string('entityparam', 32);
-            $table->text('optargs')->nullable();
-            $table->string('argseparator', 10)->nullable();
-            $table->string('documenttype', 20);
+            $table->string('entity_param', 32);
+            $table->text('opt_args')->nullable();
+            $table->string('arg_separator', 10)->nullable();
+            $table->string('document_type', 20);
             $table->text('description');
-            $table->string('returncodeelement', 256);
-            $table->string('returncodevalue', 512);
-            $table->string('messagecodeelement', 256);
+            $table->string('return_code_element', 256);
+            $table->string('return_code_value', 512);
+            $table->string('message_code_element', 256);
             $table->timestamps();
             $table->foreign('federation_id')->references('id')->on('federation')->cascadeOnDelete();
         });
     }
 
-    public function down(): void
-    {
-        Schema::dropIfExists('fedvalidator');
-        Schema::dropIfExists('tracker');
-        Schema::dropIfExists('staticpage');
-        Schema::dropIfExists('preferences');
-        Schema::dropIfExists('partnership');
-        Schema::dropIfExists('mailqueue');
-        Schema::dropIfExists('maillocalization');
-        Schema::dropIfExists('jcrontab');
-        Schema::dropIfExists('invitation');
-    }
+    public function down(): void {}
 };

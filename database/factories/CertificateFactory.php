@@ -16,15 +16,15 @@ class CertificateFactory extends Factory
     public function definition(): array
     {
         return [
-            'type' => fake()->randomElement(['idpsso', 'spsso']),
-            'certusage' => fake()->optional()->randomElement(['signing', 'encryption']),
-            'certtype' => 'X509Certificate',
-            'certdata' => fake()->sha256(),
-            'encmethods' => null,
+            'type' => \App\Enums\CertificateType::IdpSso,
+            'cert_usage' => \App\Enums\CertificateUsage::Signing,
+            'cert_type' => 'X509Certificate',
+            'cert_data' => fake()->sha256(),
+            'enc_methods' => null,
             'subject' => fake()->optional()->word(),
             'provider_id' => Provider::factory(),
             'is_default' => true,
-            'keyname' => fake()->optional()->word(),
+            'key_name' => fake()->optional()->word(),
         ];
     }
 }

@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use Database\Factories\MailLocalizationFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class MailLocalization extends Model
 {
     /** @use HasFactory<MailLocalizationFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'maillocalization';
 

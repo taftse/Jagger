@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
-use Database\Factories\AclRoleFactory;
+use Database\Factories\RoleFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class AclRole extends Model
+class Role extends Model
 {
-    /** @use HasFactory<AclRoleFactory> */
-    use HasFactory;
+    /** @use HasFactory<RoleFactory> */
+    use HasFactory, HasUuids;
 
     protected $table = 'acl_role';
 
@@ -32,12 +33,12 @@ class AclRole extends Model
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(AclRole::class, 'parent_id');
+        return $this->belongsTo(Role::class, 'parent_id');
     }
 
     public function children(): HasMany
     {
-        return $this->hasMany(AclRole::class, 'parent_id');
+        return $this->hasMany(Role::class, 'parent_id');
     }
 
     public function members(): BelongsToMany

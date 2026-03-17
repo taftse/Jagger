@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use Database\Factories\MailQueueFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class MailQueue extends Model
 {
     /** @use HasFactory<MailQueueFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'mailqueue';
 

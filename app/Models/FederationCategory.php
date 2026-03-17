@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Database\Factories\FederationCategoryFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -10,23 +11,23 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class FederationCategory extends Model
 {
     /** @use HasFactory<FederationCategoryFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'fedcategory';
 
     public $timestamps = false;
 
     protected $fillable = [
-        'shortname',
-        'descname',
+        'short_name',
+        'desc_name',
         'description',
-        'isdefault',
+        'is_default',
     ];
 
     protected function casts(): array
     {
         return [
-            'isdefault' => 'boolean',
+            'is_default' => 'boolean',
         ];
     }
 

@@ -9,131 +9,120 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('certificate', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->uuid('id')->primary();
             $table->string('type', 12);
-            $table->string('certusage', 12)->nullable();
-            $table->string('certtype', 26)->nullable();
-            $table->text('certdata')->nullable();
-            $table->text('encmethods')->nullable();
+            $table->string('cert_usage', 12)->nullable();
+            $table->string('cert_type', 26)->nullable();
+            $table->text('cert_data')->nullable();
+            $table->text('enc_methods')->nullable();
             $table->string('subject', 128)->nullable();
-            $table->unsignedBigInteger('provider_id');
+            $table->uuid('provider_id');
             $table->boolean('is_default')->default(true);
-            $table->string('keyname', 512)->nullable();
+            $table->string('key_name', 512)->nullable();
             $table->foreign('provider_id')->references('id')->on('provider')->cascadeOnDelete();
         });
 
         Schema::create('contact', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('givenname', 255)->nullable();
+            $table->uuid('id')->primary();
+            $table->string('given_name', 255)->nullable();
             $table->string('surname', 255)->nullable();
             $table->string('email', 255)->nullable();
             $table->string('type', 64);
-            $table->boolean('issirfty')->default(false);
+            $table->boolean('is_sirtfi')->default(false);
             $table->string('phone', 24)->nullable();
-            $table->unsignedBigInteger('provider_id');
+            $table->uuid('provider_id');
             $table->foreign('provider_id')->references('id')->on('provider')->cascadeOnDelete();
         });
 
         Schema::create('service_location', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->uuid('id')->primary();
             $table->string('type');
             $table->string('binding_name');
             $table->string('url');
             $table->boolean('is_default')->default(false);
             $table->integer('ordered_no')->nullable();
-            $table->unsignedBigInteger('provider_id');
+            $table->uuid('provider_id');
+            $table->timestamps();
             $table->foreign('provider_id')->references('id')->on('provider')->cascadeOnDelete();
         });
 
         Schema::create('provider_metadata', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->uuid('id')->primary();
             $table->text('metadata');
-            $table->unsignedBigInteger('provider_id')->unique();
+            $table->uuid('provider_id')->unique();
             $table->foreign('provider_id')->references('id')->on('provider')->cascadeOnDelete();
         });
 
         Schema::create('extend_metadata', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('etype', 12);
-            $table->unsignedBigInteger('provider_id');
+            $table->uuid('provider_id');
             $table->string('namespace', 32);
-            $table->unsignedInteger('parent_id')->nullable();
+            $table->uuid('parent_id')->nullable();
             $table->string('element', 32);
             $table->text('evalue')->nullable();
-            $table->string('attrs', 255)->nullable();
+            $table->string('attributes', 255)->nullable();
             $table->foreign('provider_id')->references('id')->on('provider')->cascadeOnDelete();
             $table->foreign('parent_id')->references('id')->on('extend_metadata')->nullOnDelete();
         });
 
         Schema::create('attribute_release_policy', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->uuid('id')->primary();
             $table->string('type', 10);
-            $table->unsignedInteger('attribute_id');
-            $table->unsignedBigInteger('idp_id');
-            $table->integer('requester')->nullable();
-            $table->index('requester', 'requester_idx');
+            $table->uuid('attribute_id');
+            $table->uuid('provider_id');
+            $table->uuid('requester_id')->nullable();
             $table->foreign('attribute_id')->references('id')->on('attribute')->cascadeOnDelete();
-            $table->foreign('idp_id')->references('id')->on('provider')->cascadeOnDelete();
+            $table->foreign('provider_id')->references('id')->on('provider')->cascadeOnDelete();
+            $table->foreign('requester_id')->references('id')->on('provider')->nullOnDelete();
         });
 
         Schema::create('attribute_requirement', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedInteger('attribute_id');
-            $table->unsignedBigInteger('sp_id')->nullable();
-            $table->unsignedInteger('fed_id')->nullable();
+            $table->uuid('id')->primary();
+            $table->uuid('attribute_id');
+            $table->uuid('provider_id')->nullable();
+            $table->uuid('federation_id')->nullable();
             $table->string('type', 5);
             $table->string('status', 10)->nullable();
             $table->string('reason')->nullable();
             $table->index('type', 'type_idx');
             $table->foreign('attribute_id')->references('id')->on('attribute')->cascadeOnDelete();
-            $table->foreign('sp_id')->references('id')->on('provider')->nullOnDelete();
-            $table->foreign('fed_id')->references('id')->on('federation')->nullOnDelete();
+            $table->foreign('provider_id')->references('id')->on('provider')->nullOnDelete();
+            $table->foreign('federation_id')->references('id')->on('federation')->nullOnDelete();
         });
 
         Schema::create('providerstatsdef', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('shortname', 20);
-            $table->string('titlename', 128);
-            $table->unsignedBigInteger('provider_id');
+            $table->uuid('id')->primary();
+            $table->string('short_name', 20);
+            $table->string('title_name', 128);
+            $table->uuid('provider_id');
             $table->string('type', 20);
-            $table->string('predefinedcol', 50)->nullable();
+            $table->string('predefined_col', 50)->nullable();
             $table->string('method', 5)->nullable();
-            $table->string('formattype', 20)->nullable();
-            $table->string('sourceurl', 512)->nullable();
-            $table->string('accesstype', 20)->nullable();
-            $table->string('authuser', 20)->nullable();
-            $table->string('authpass', 50)->nullable();
-            $table->text('displayoptions')->nullable();
-            $table->text('postoptions')->nullable();
+            $table->string('format_type', 20)->nullable();
+            $table->string('source_url', 512)->nullable();
+            $table->string('access_type', 20)->nullable();
+            $table->string('auth_user', 20)->nullable();
+            $table->string('auth_pass', 50)->nullable();
+            $table->text('display_options')->nullable();
+            $table->text('post_options')->nullable();
             $table->text('description');
             $table->boolean('overwrite')->nullable();
-            $table->dateTime('created_at');
-            $table->dateTime('updated_at');
+            $table->timestamps();
             $table->foreign('provider_id')->references('id')->on('provider')->cascadeOnDelete();
         });
 
         Schema::create('providerstatscollection', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('provider_id');
-            $table->unsignedBigInteger('statdefinition_id');
+            $table->uuid('id')->primary();
+            $table->uuid('provider_id');
+            $table->uuid('stats_def_id');
             $table->string('format', 15);
-            $table->string('statfilename', 50);
-            $table->dateTime('created_at');
+            $table->string('stat_filename', 50);
+            $table->timestamps();
             $table->foreign('provider_id')->references('id')->on('provider')->cascadeOnDelete();
-            $table->foreign('statdefinition_id')->references('id')->on('providerstatsdef')->cascadeOnDelete();
+            $table->foreign('stats_def_id')->references('id')->on('providerstatsdef')->cascadeOnDelete();
         });
     }
 
-    public function down(): void
-    {
-        Schema::dropIfExists('providerstatscollection');
-        Schema::dropIfExists('providerstatsdef');
-        Schema::dropIfExists('attribute_requirement');
-        Schema::dropIfExists('attribute_release_policy');
-        Schema::dropIfExists('extend_metadata');
-        Schema::dropIfExists('provider_metadata');
-        Schema::dropIfExists('service_location');
-        Schema::dropIfExists('contact');
-        Schema::dropIfExists('certificate');
-    }
+    public function down(): void {}
 };

@@ -16,11 +16,11 @@ class ContactFactory extends Factory
     public function definition(): array
     {
         return [
-            'givenname' => fake()->firstName(),
+            'given_name' => fake()->firstName(),
             'surname' => fake()->lastName(),
             'email' => fake()->safeEmail(),
-            'type' => fake()->randomElement(['technical', 'administrative', 'support', 'billing', 'other']),
-            'issirfty' => false,
+            'type' => \App\Enums\ContactType::Technical,
+            'is_sirtfi' => false,
             'phone' => fake()->optional()->phoneNumber(),
             'provider_id' => Provider::factory(),
         ];

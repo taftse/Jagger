@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\CertificateType;
+use App\Enums\CertificateUsage;
 use Database\Factories\CertificateFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Certificate extends Model
 {
     /** @use HasFactory<CertificateFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'certificate';
 
@@ -18,19 +21,21 @@ class Certificate extends Model
 
     protected $fillable = [
         'type',
-        'certusage',
-        'certtype',
-        'certdata',
-        'encmethods',
+        'cert_usage',
+        'cert_type',
+        'cert_data',
+        'enc_methods',
         'subject',
         'provider_id',
         'is_default',
-        'keyname',
+        'key_name',
     ];
 
     protected function casts(): array
     {
         return [
+            'type' => CertificateType::class,
+            'cert_usage' => CertificateUsage::class,
             'is_default' => 'boolean',
         ];
     }

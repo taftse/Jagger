@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Database\Factories\AttributeReleasePolicyFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class AttributeReleasePolicy extends Model
 {
     /** @use HasFactory<AttributeReleasePolicyFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'attribute_release_policy';
 
@@ -19,24 +20,25 @@ class AttributeReleasePolicy extends Model
     protected $fillable = [
         'type',
         'attribute_id',
-        'idp_id',
-        'requester',
+        'provider_id',
+        'requester_id',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'requester' => 'integer',
-        ];
-    }
 
     public function attribute(): BelongsTo
     {
         return $this->belongsTo(Attribute::class, 'attribute_id');
     }
 
-    public function idp(): BelongsTo
+    public function provider(): BelongsTo
     {
-        return $this->belongsTo(Provider::class, 'idp_id');
+        return $this->belongsTo(Provider::class, 'provider_id');
+    }
+
+    /**
+     * The optional Service Provider that this policy is scoped to.
+     */
+    public function requester(): BelongsTo
+    {
+        return $this->belongsTo(Provider::class, 'requester_id');
     }
 }

@@ -16,7 +16,7 @@ class ServiceLocationFactory extends Factory
     public function definition(): array
     {
         return [
-            'type' => fake()->randomElement(['AssertionConsumerService', 'SingleLogoutService']),
+            'type' => \App\Enums\ServiceLocationType::AssertionConsumerService,
             'binding_name' => 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
             'url' => fake()->url(),
             'is_default' => false,

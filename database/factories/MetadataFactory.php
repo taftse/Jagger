@@ -2,16 +2,16 @@
 
 namespace Database\Factories;
 
+use App\Models\Metadata;
 use App\Models\Provider;
-use App\Models\StaticMetadata;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<StaticMetadata>
+ * @extends Factory<Metadata>
  */
-class StaticMetadataFactory extends Factory
+class MetadataFactory extends Factory
 {
-    protected $model = StaticMetadata::class;
+    protected $model = Metadata::class;
 
     public function definition(): array
     {

@@ -2,15 +2,15 @@
 
 namespace Database\Factories;
 
-use App\Models\Coc;
+use App\Models\CodeOfConduct;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Coc>
+ * @extends Factory<CodeOfConduct>
  */
-class CocFactory extends Factory
+class CodeOfConductFactory extends Factory
 {
-    protected $model = Coc::class;
+    protected $model = CodeOfConduct::class;
 
     public function definition(): array
     {

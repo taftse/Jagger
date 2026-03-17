@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Database\Factories\FederationValidatorFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class FederationValidator extends Model
 {
     /** @use HasFactory<FederationValidatorFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'fedvalidator';
 
@@ -19,17 +20,17 @@ class FederationValidator extends Model
         'federation_id',
         'is_enabled',
         'is_mandatory',
-        'is_regenabled',
+        'is_reg_enabled',
         'url',
         'method',
-        'entityparam',
-        'optargs',
-        'argseparator',
-        'documenttype',
+        'entity_param',
+        'opt_args',
+        'arg_separator',
+        'document_type',
         'description',
-        'returncodeelement',
-        'returncodevalue',
-        'messagecodeelement',
+        'return_code_element',
+        'return_code_value',
+        'message_code_element',
     ];
 
     protected function casts(): array
@@ -37,9 +38,7 @@ class FederationValidator extends Model
         return [
             'is_enabled' => 'boolean',
             'is_mandatory' => 'boolean',
-            'is_regenabled' => 'boolean',
-            'created_at' => 'datetime',
-            'updated_at' => 'datetime',
+            'is_reg_enabled' => 'boolean',
         ];
     }
 

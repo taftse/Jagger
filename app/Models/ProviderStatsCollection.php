@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Database\Factories\ProviderStatsCollectionFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,26 +11,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ProviderStatsCollection extends Model
 {
     /** @use HasFactory<ProviderStatsCollectionFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'providerstatscollection';
 
-    public $timestamps = false;
-
     protected $fillable = [
         'provider_id',
-        'statdefinition_id',
+        'stats_def_id',
         'format',
-        'statfilename',
-        'created_at',
+        'stat_filename',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'created_at' => 'datetime',
-        ];
-    }
 
     public function provider(): BelongsTo
     {
@@ -38,6 +29,6 @@ class ProviderStatsCollection extends Model
 
     public function statDefinition(): BelongsTo
     {
-        return $this->belongsTo(ProviderStatsDef::class, 'statdefinition_id');
+        return $this->belongsTo(ProviderStatsDef::class, 'stats_def_id');
     }
 }

@@ -2,7 +2,7 @@
 
 use App\Models\Acl;
 use App\Models\AclResource;
-use App\Models\AclRole;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 it('has correct table name', function (): void {
@@ -17,8 +17,12 @@ it('has correct fillable attributes', function (): void {
         ->toContain('access');
 });
 
-it('casts access as boolean', function (): void {
+it('casts all fields', function (): void {
     $casts = (new Acl())->getCasts();
+    expect($casts)->toHaveKey('resource_id')
+        ->toHaveKey('role_id')
+        ->toHaveKey('action')
+        ->toHaveKey('access');
     expect($casts['access'])->toBe('boolean');
 });
 
@@ -31,7 +35,7 @@ it('belongs to an AclResource', function (): void {
     expect($acl->resource())->toBeInstanceOf(BelongsTo::class);
 });
 
-it('belongs to an AclRole', function (): void {
+it('belongs to a Role', function (): void {
     $acl = new Acl();
     expect($acl->role())->toBeInstanceOf(BelongsTo::class);
 });

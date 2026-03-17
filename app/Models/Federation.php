@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Database\Factories\FederationFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Federation extends Model
 {
     /** @use HasFactory<FederationFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'federation';
 
@@ -52,9 +53,11 @@ class Federation extends Model
         ];
     }
 
-    public function membership(): HasMany
+    public function members(): BelongsToMany
     {
-        return $this->hasMany(FederationMember::class, 'federation_id');
+        return $this->belongsToMany(Provider::class, 'federation_members', 'federation_id', 'provider_id')
+            ->using(FederationMember::class)
+            ->withPivot(['join_state', 'is_disabled', 'is_banned']);
     }
 
     public function categories(): BelongsToMany
@@ -79,6 +82,6 @@ class Federation extends Model
 
     public function attributeRequirements(): HasMany
     {
-        return $this->hasMany(AttributeRequirement::class, 'fed_id');
+        return $this->hasMany(AttributeRequirement::class, 'federation_id');
     }
 }

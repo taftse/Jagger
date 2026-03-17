@@ -16,13 +16,13 @@ class ExtendMetadataFactory extends Factory
     public function definition(): array
     {
         return [
-            'etype' => fake()->randomElement(['element', 'attribute']),
+            'etype' => \App\Enums\ExtendMetadataType::Element,
             'provider_id' => Provider::factory(),
             'namespace' => fake()->word(),
             'parent_id' => null,
             'element' => fake()->word(),
             'evalue' => fake()->optional()->word(),
-            'attrs' => fake()->optional()->word(),
+            'attributes' => fake()->optional()->word(),
         ];
     }
 }

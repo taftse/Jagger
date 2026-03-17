@@ -18,10 +18,9 @@ class ProviderStatsCollectionFactory extends Factory
     {
         return [
             'provider_id' => Provider::factory(),
-            'statdefinition_id' => ProviderStatsDef::factory(),
+            'stats_def_id' => ProviderStatsDef::factory(),
             'format' => fake()->randomElement(['json', 'csv', 'xml']),
-            'statfilename' => fake()->unique()->slug() . '.json',
-            'created_at' => now(),
+            'stat_filename' => fake()->unique()->slug() . '.json',
         ];
     }
 }

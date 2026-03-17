@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,58 +13,57 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, HasUuids, Notifiable;
 
     protected $table = 'user';
 
-    public $timestamps = false;
-
     protected $fillable = [
-        'username',
-        'password',
-        'salt',
+        'name',
         'email',
-        'givenname',
+        'password',
+        'old_password',
+        'old_salt',
+        'username',
+        'given_name',
         'surname',
-        'userpref',
-        'local',
-        'federated',
-        'approved',
-        'enabled',
-        'validated',
-        'lastlogin',
-        'lastip',
+        'user_pref',
+        'is_local',
+        'is_federated',
+        'is_approved',
+        'is_enabled',
+        'is_validated',
+        'last_login',
+        'last_ip',
     ];
 
     protected $hidden = [
         'password',
-        'salt',
+        'remember_token',
+        'old_password',
+        'old_salt',
     ];
 
     protected function casts(): array
     {
         return [
-            'local' => 'boolean',
-            'federated' => 'boolean',
-            'approved' => 'boolean',
-            'enabled' => 'boolean',
-            'validated' => 'boolean',
-            'lastlogin' => 'datetime',
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+            'is_local' => 'boolean',
+            'is_federated' => 'boolean',
+            'is_approved' => 'boolean',
+            'is_enabled' => 'boolean',
+            'is_validated' => 'boolean',
+            'last_login' => 'datetime',
         ];
     }
 
     public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(AclRole::class, 'aclrole_members', 'user_id', 'role_id');
+        return $this->belongsToMany(Role::class, 'aclrole_members', 'user_id', 'role_id');
     }
 
     public function subscriptions(): HasMany
     {
-        return $this->hasMany(NotificationList::class, 'subscriber');
-    }
-
-    public function queueEntries(): HasMany
-    {
-        return $this->hasMany(JaggerQueue::class, 'creator');
+        return $this->hasMany(NotificationList::class, 'user_id');
     }
 }

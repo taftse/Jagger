@@ -14,56 +14,54 @@ class ProviderFactory extends Factory
 
     public function definition(): array
     {
-        $type = fake()->randomElement(['IDP', 'SP', 'BOTH']);
+        $type = fake()->randomElement([\App\Enums\ProviderType::IDP, \App\Enums\ProviderType::SP, \App\Enums\ProviderType::Both]);
 
         return [
             'name' => fake()->company(),
-            'lname' => null,
-            'displayname' => fake()->company(),
-            'ldisplayname' => null,
-            'entityid' => 'https://' . fake()->unique()->domainName() . '/saml/metadata',
-            'nameidformat' => null,
-            'nameids' => null,
+            'localized_name' => null,
+            'display_name' => fake()->company(),
+            'localized_display_name' => null,
+            'entity_id' => 'https://' . fake()->unique()->domainName() . '/saml/metadata',
+            'nameid_format' => null,
+            'name_ids' => null,
             'protocol' => null,
-            'protocolsupport' => null,
+            'protocol_support' => null,
             'type' => $type,
-            'wantassertsigned' => null,
-            'wantauthnreqsigned' => null,
-            'authnreqsigned' => null,
+            'want_assert_signed' => null,
+            'want_authn_req_signed' => null,
+            'authn_req_signed' => null,
             'scope' => null,
             'digest' => null,
-            'helpdeskurl' => null,
-            'lhelpdeskurl' => null,
-            'privacyurl' => null,
-            'lprivacyurl' => null,
+            'helpdesk_url' => null,
+            'localized_helpdesk_url' => null,
+            'privacy_url' => null,
+            'localized_privacy_url' => null,
             'registrar' => null,
-            'registerdate' => null,
-            'regpolicy' => null,
-            'validfrom' => null,
-            'validto' => null,
+            'register_date' => null,
+            'reg_policy' => null,
+            'valid_from' => null,
+            'valid_to' => null,
             'description' => fake()->optional()->sentence(),
             'country' => null,
-            'wayflist' => null,
-            'excarps' => null,
+            'wayf_list' => null,
+            'exc_arps' => null,
             'is_approved' => true,
             'is_active' => true,
             'is_locked' => false,
             'is_static' => false,
             'is_local' => true,
-            'hidepublic' => false,
+            'hide_from_public' => false,
             'owner_id' => null,
-            'created_at' => now(),
-            'updated_at' => now(),
         ];
     }
 
     public function idp(): static
     {
-        return $this->state(['type' => 'IDP']);
+        return $this->state(['type' => \App\Enums\ProviderType::IDP]);
     }
 
     public function sp(): static
     {
-        return $this->state(['type' => 'SP']);
+        return $this->state(['type' => \App\Enums\ProviderType::SP]);
     }
 }

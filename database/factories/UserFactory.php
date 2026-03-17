@@ -16,30 +16,34 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
+            'name' => fake()->name(),
             'username' => fake()->unique()->userName(),
-            'password' => sha1('password' . 'testsalt'),
-            'salt' => 'testsalt',
             'email' => fake()->unique()->safeEmail(),
-            'givenname' => fake()->firstName(),
+            'email_verified_at' => now(),
+            'password' => bcrypt('password'),
+            'old_password' => null,
+            'old_salt' => null,
+            'given_name' => fake()->firstName(),
             'surname' => fake()->lastName(),
-            'userpref' => null,
-            'local' => true,
-            'federated' => false,
-            'approved' => true,
-            'enabled' => true,
-            'validated' => true,
-            'lastlogin' => null,
-            'lastip' => null,
+            'user_pref' => null,
+            'is_local' => true,
+            'is_federated' => false,
+            'is_approved' => true,
+            'is_enabled' => true,
+            'is_validated' => true,
+            'last_login' => null,
+            'last_ip' => null,
+            'remember_token' => \Illuminate\Support\Str::random(10),
         ];
     }
 
     public function disabled(): static
     {
-        return $this->state(['enabled' => false]);
+        return $this->state(['is_enabled' => false]);
     }
 
     public function federated(): static
     {
-        return $this->state(['federated' => true, 'local' => false]);
+        return $this->state(['is_federated' => true, 'is_local' => false]);
     }
 }

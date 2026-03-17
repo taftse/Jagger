@@ -3,24 +3,28 @@
 namespace App\Models;
 
 use Database\Factories\TrackerFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Tracks resource access / audit events (downloads, metadata refreshes, logins, etc.)
+ */
 class Tracker extends Model
 {
     /** @use HasFactory<TrackerFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'tracker';
 
     public $timestamps = false;
 
     protected $fillable = [
-        'resourcetype',
+        'resource_type',
         'subtype',
-        'resourcename',
-        'sourceip',
-        'useragent',
+        'resource_name',
+        'source_ip',
+        'user_agent',
         'user',
         'created_at',
         'detail',

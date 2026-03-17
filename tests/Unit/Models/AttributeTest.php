@@ -9,16 +9,16 @@ it('has correct table name', function (): void {
 it('has correct fillable attributes', function (): void {
     $fillable = (new Attribute())->getFillable();
     expect($fillable)->toContain('name')
-        ->toContain('fullname')
+        ->toContain('full_name')
         ->toContain('oid')
         ->toContain('urn')
-        ->toContain('inmetadata')
+        ->toContain('in_metadata')
         ->toContain('description');
 });
 
-it('casts inmetadata as boolean', function (): void {
+it('casts in_metadata as boolean', function (): void {
     $casts = (new Attribute())->getCasts();
-    expect($casts['inmetadata'])->toBe('boolean');
+    expect($casts['in_metadata'])->toBe('boolean');
 });
 
 it('has no timestamps', function (): void {
@@ -29,5 +29,5 @@ it('can be created via factory', function (): void {
     $attribute = Attribute::factory()->make();
     expect($attribute)->toBeInstanceOf(Attribute::class)
         ->and($attribute->name)->not->toBeNull()
-        ->and($attribute->inmetadata)->toBeTrue();
+        ->and($attribute->in_metadata)->toBeTrue();
 });

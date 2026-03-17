@@ -15,15 +15,14 @@ class InvitationFactory extends Factory
     public function definition(): array
     {
         return [
-            'token' => fake()->md5(),
-            'validationkey' => fake()->md5(),
-            'mailfrom' => fake()->safeEmail(),
-            'mailto' => fake()->safeEmail(),
-            'created_at' => now()->toDateTimeString(),
-            'validto' => now()->addDays(7)->timestamp,
+            'token' => fake()->uuid(),
+            'validation_key' => fake()->uuid(),
+            'mail_from' => fake()->safeEmail(),
+            'mail_to' => fake()->safeEmail(),
+            'valid_till' => now()->addDays(7),
             'is_valid' => true,
-            'targettype' => fake()->randomElement(['federation', 'provider']),
-            'targetid' => fake()->numerify('###'),
+            'target_type' => null,
+            'target_id' => null,
             'actiontype' => 'join',
             'actionvalue' => fake()->numerify('###'),
         ];

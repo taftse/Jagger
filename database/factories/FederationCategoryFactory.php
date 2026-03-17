@@ -15,10 +15,10 @@ class FederationCategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'shortname' => fake()->unique()->lexify('????'),
-            'descname' => fake()->words(3, true),
+            'short_name' => fake()->unique()->lexify('????'),
+            'desc_name' => fake()->words(3, true),
             'description' => fake()->sentence(),
-            'isdefault' => false,
+            'is_default' => false,
         ];
     }
 }

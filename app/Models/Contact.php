@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\ContactType;
 use Database\Factories\ContactFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,18 +12,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Contact extends Model
 {
     /** @use HasFactory<ContactFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'contact';
 
     public $timestamps = false;
 
     protected $fillable = [
-        'givenname',
+        'given_name',
         'surname',
         'email',
         'type',
-        'issirfty',
+        'is_sirtfi',
         'phone',
         'provider_id',
     ];
@@ -29,7 +31,8 @@ class Contact extends Model
     protected function casts(): array
     {
         return [
-            'issirfty' => 'boolean',
+            'is_sirtfi' => 'boolean',
+            'type' => ContactType::class,
         ];
     }
 

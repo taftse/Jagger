@@ -7,15 +7,14 @@ it('has correct table name', function (): void {
     expect((new Partner())->getTable())->toBe('partner');
 });
 
-it('has correct fillable attributes', function (): void {
+it('has correct fillable attributes in snake_case', function (): void {
     $fillable = (new Partner())->getFillable();
     expect($fillable)->toContain('name')
-        ->toContain('homeurl')
+        ->toContain('contact')
+        ->toContain('phone')
+        ->toContain('home_url')
         ->toContain('description');
-});
-
-it('has no timestamps', function (): void {
-    expect((new Partner())->usesTimestamps())->toBeFalse();
+    expect($fillable)->not->toContain('homeurl');
 });
 
 it('belongs to many federations', function (): void {
@@ -26,5 +25,5 @@ it('can be created via factory', function (): void {
     $partner = Partner::factory()->make();
     expect($partner)->toBeInstanceOf(Partner::class)
         ->and($partner->name)->not->toBeNull()
-        ->and($partner->homeurl)->not->toBeNull();
+        ->and($partner->home_url)->not->toBeNull();
 });

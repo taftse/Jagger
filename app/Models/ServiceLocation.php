@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\ServiceLocationType;
 use Database\Factories\ServiceLocationFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,11 +12,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ServiceLocation extends Model
 {
     /** @use HasFactory<ServiceLocationFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'service_location';
-
-    public $timestamps = false;
 
     protected $fillable = [
         'type',
@@ -28,6 +28,7 @@ class ServiceLocation extends Model
     protected function casts(): array
     {
         return [
+            'type' => ServiceLocationType::class,
             'is_default' => 'boolean',
             'ordered_no' => 'integer',
         ];

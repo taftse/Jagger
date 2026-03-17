@@ -2,16 +2,14 @@
 
 namespace App\Models;
 
-use Database\Factories\PartnershipFactory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class Partnership extends Model
+/**
+ * Pivot model for the many-to-many relationship between Provider and Partner.
+ */
+class Partnership extends Pivot
 {
-    /** @use HasFactory<PartnershipFactory> */
-    use HasFactory;
-
     protected $table = 'partnership';
 
     public $timestamps = false;

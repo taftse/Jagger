@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use Database\Factories\FederationMemberFactory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphPivot;
 
-class FederationMember extends Model
+/**
+ * Pivot model for the many-to-many relationship between Federation and Provider.
+ * Tracks the join state, disabled and banned status of each member.
+ */
+class FederationMember extends MorphPivot
 {
-    /** @use HasFactory<FederationMemberFactory> */
-    use HasFactory;
-
     protected $table = 'federation_members';
 
     public $timestamps = false;
@@ -19,17 +18,17 @@ class FederationMember extends Model
     protected $fillable = [
         'provider_id',
         'federation_id',
-        'joinstate',
-        'isdisabled',
-        'isbanned',
+        'join_state',
+        'is_disabled',
+        'is_banned',
     ];
 
     protected function casts(): array
     {
         return [
-            'joinstate' => 'integer',
-            'isdisabled' => 'boolean',
-            'isbanned' => 'boolean',
+            'join_state' => 'integer',
+            'is_disabled' => 'boolean',
+            'is_banned' => 'boolean',
         ];
     }
 

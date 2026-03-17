@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use Database\Factories\AttributeFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Attribute extends Model
 {
     /** @use HasFactory<AttributeFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'attribute';
 
@@ -17,17 +18,17 @@ class Attribute extends Model
 
     protected $fillable = [
         'name',
-        'fullname',
+        'full_name',
         'oid',
         'urn',
-        'inmetadata',
+        'in_metadata',
         'description',
     ];
 
     protected function casts(): array
     {
         return [
-            'inmetadata' => 'boolean',
+            'in_metadata' => 'boolean',
         ];
     }
 }

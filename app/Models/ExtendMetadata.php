@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\ExtendMetadataType;
 use Database\Factories\ExtendMetadataFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class ExtendMetadata extends Model
 {
     /** @use HasFactory<ExtendMetadataFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'extend_metadata';
 
@@ -24,8 +26,15 @@ class ExtendMetadata extends Model
         'parent_id',
         'element',
         'evalue',
-        'attrs',
+        'attributes',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'etype' => ExtendMetadataType::class,
+        ];
+    }
 
     public function provider(): BelongsTo
     {

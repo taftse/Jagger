@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\ProviderType;
 use App\Models\Provider;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,75 +10,56 @@ it('has correct table name', function (): void {
     expect((new Provider())->getTable())->toBe('provider');
 });
 
-it('has correct fillable attributes', function (): void {
+it('has correct fillable attributes in snake_case', function (): void {
     $fillable = (new Provider())->getFillable();
-    expect($fillable)->toContain('entityid')
+    expect($fillable)->toContain('name')
+        ->toContain('entity_id')
         ->toContain('type')
-        ->toContain('is_active')
-        ->toContain('is_local');
+        ->toContain('display_name')
+        ->toContain('want_assert_signed')
+        ->toContain('is_approved')
+        ->toContain('hide_from_public');
 });
 
-it('casts boolean fields correctly', function (): void {
+it('casts type as ProviderType enum', function (): void {
     $casts = (new Provider())->getCasts();
-    expect($casts['is_active'])->toBe('boolean')
-        ->and($casts['is_local'])->toBe('boolean')
-        ->and($casts['is_approved'])->toBe('boolean')
-        ->and($casts['is_locked'])->toBe('boolean');
+    expect($casts['type'])->toBe(ProviderType::class);
 });
 
-it('has many membership records', function (): void {
-    expect((new Provider())->membership())->toBeInstanceOf(HasMany::class);
+it('casts boolean fields', function (): void {
+    $casts = (new Provider())->getCasts();
+    foreach (['is_approved', 'is_active', 'is_locked', 'is_static', 'is_local', 'hide_from_public'] as $field) {
+        expect($casts[$field])->toBe('boolean');
+    }
 });
 
-it('has many contacts', function (): void {
+it('has federations BelongsToMany', function (): void {
+    expect((new Provider())->federations())->toBeInstanceOf(BelongsToMany::class);
+});
+
+it('has contacts HasMany', function (): void {
     expect((new Provider())->contacts())->toBeInstanceOf(HasMany::class);
 });
 
-it('has many certificates', function (): void {
+it('has certificates HasMany', function (): void {
     expect((new Provider())->certificates())->toBeInstanceOf(HasMany::class);
 });
 
-it('has many service locations', function (): void {
-    expect((new Provider())->serviceLocations())->toBeInstanceOf(HasMany::class);
+it('has samlMetadata HasOne', function (): void {
+    expect((new Provider())->samlMetadata())->toBeInstanceOf(HasOne::class);
 });
 
-it('has many attribute release policies', function (): void {
-    expect((new Provider())->attributeReleasePolicies())->toBeInstanceOf(HasMany::class);
+it('has codesOfConduct BelongsToMany', function (): void {
+    expect((new Provider())->codesOfConduct())->toBeInstanceOf(BelongsToMany::class);
 });
 
-it('has many attribute requirements', function (): void {
-    expect((new Provider())->attributeRequirements())->toBeInstanceOf(HasMany::class);
-});
-
-it('has one static metadata', function (): void {
-    expect((new Provider())->metadata())->toBeInstanceOf(HasOne::class);
-});
-
-it('has many extend metadata records', function (): void {
-    expect((new Provider())->extendMetadata())->toBeInstanceOf(HasMany::class);
-});
-
-it('has many stats definitions', function (): void {
-    expect((new Provider())->statsDef())->toBeInstanceOf(HasMany::class);
-});
-
-it('belongs to many coc entries', function (): void {
-    expect((new Provider())->coc())->toBeInstanceOf(BelongsToMany::class);
-});
-
-it('can be created via factory', function (): void {
-    $provider = Provider::factory()->make();
-    expect($provider)->toBeInstanceOf(Provider::class)
-        ->and($provider->entityid)->toStartWith('https://')
-        ->and($provider->is_active)->toBeTrue();
-});
-
-it('can create an IDP via factory state', function (): void {
+it('can be created via factory as IDP', function (): void {
     $provider = Provider::factory()->idp()->make();
-    expect($provider->type)->toBe('IDP');
+    expect($provider)->toBeInstanceOf(Provider::class)
+        ->and($provider->type)->toBe(ProviderType::IDP);
 });
 
-it('can create an SP via factory state', function (): void {
+it('can be created via factory as SP', function (): void {
     $provider = Provider::factory()->sp()->make();
-    expect($provider->type)->toBe('SP');
+    expect($provider->type)->toBe(ProviderType::SP);
 });

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Database\Factories\PartnerFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Partner extends Model
 {
     /** @use HasFactory<PartnerFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'partner';
 
@@ -20,7 +21,7 @@ class Partner extends Model
         'name',
         'contact',
         'phone',
-        'homeurl',
+        'home_url',
         'description',
     ];
 

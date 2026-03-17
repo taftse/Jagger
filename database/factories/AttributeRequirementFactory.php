@@ -17,8 +17,8 @@ class AttributeRequirementFactory extends Factory
     {
         return [
             'attribute_id' => Attribute::factory(),
-            'sp_id' => null,
-            'fed_id' => null,
+            'provider_id' => null,
+            'federation_id' => null,
             'type' => fake()->randomElement(['SP', 'FED']),
             'status' => fake()->optional()->randomElement(['required', 'optional']),
             'reason' => fake()->optional()->sentence(),

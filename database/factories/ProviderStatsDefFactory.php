@@ -16,23 +16,21 @@ class ProviderStatsDefFactory extends Factory
     public function definition(): array
     {
         return [
-            'shortname' => fake()->unique()->lexify('stat_???'),
-            'titlename' => fake()->words(3, true),
+            'short_name' => fake()->unique()->lexify('stat_???'),
+            'title_name' => fake()->words(3, true),
             'provider_id' => Provider::factory(),
             'type' => fake()->randomElement(['login', 'attribute', 'error']),
-            'predefinedcol' => null,
+            'predefined_col' => null,
             'method' => null,
-            'formattype' => null,
-            'sourceurl' => null,
-            'accesstype' => null,
-            'authuser' => null,
-            'authpass' => null,
-            'displayoptions' => null,
-            'postoptions' => null,
+            'format_type' => null,
+            'source_url' => null,
+            'access_type' => null,
+            'auth_user' => null,
+            'auth_pass' => null,
+            'display_options' => null,
+            'post_options' => null,
             'description' => fake()->sentence(),
             'overwrite' => null,
-            'created_at' => now(),
-            'updated_at' => now(),
         ];
     }
 }

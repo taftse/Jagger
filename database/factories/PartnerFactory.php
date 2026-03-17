@@ -18,7 +18,7 @@ class PartnerFactory extends Factory
             'name' => fake()->unique()->company(),
             'contact' => fake()->name(),
             'phone' => fake()->phoneNumber(),
-            'homeurl' => fake()->unique()->url(),
+            'home_url' => fake()->unique()->url(),
             'description' => fake()->sentence(),
         ];
     }

@@ -16,10 +16,10 @@ class AttributeFactory extends Factory
     {
         return [
             'name' => fake()->unique()->slug(2),
-            'fullname' => fake()->sentence(3),
+            'full_name' => fake()->sentence(3),
             'oid' => '1.3.6.1.4.1.' . fake()->numerify('####.#.#'),
             'urn' => 'urn:oid:' . fake()->numerify('#.#.#.####'),
-            'inmetadata' => true,
+            'in_metadata' => true,
             'description' => fake()->optional()->sentence(),
         ];
     }

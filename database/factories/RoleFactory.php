@@ -2,15 +2,15 @@
 
 namespace Database\Factories;
 
-use App\Models\AclRole;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<AclRole>
+ * @extends Factory<Role>
  */
-class AclRoleFactory extends Factory
+class RoleFactory extends Factory
 {
-    protected $model = AclRole::class;
+    protected $model = Role::class;
 
     public function definition(): array
     {

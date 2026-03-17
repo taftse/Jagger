@@ -17,10 +17,10 @@ class AttributeReleasePolicyFactory extends Factory
     public function definition(): array
     {
         return [
-            'type' => fake()->randomElement(['default', 'customsp', 'specific']),
+            'type' => fake()->randomElement(['SP', 'FED']),
             'attribute_id' => Attribute::factory(),
-            'idp_id' => Provider::factory(),
-            'requester' => fake()->optional()->randomNumber(3),
+            'provider_id' => Provider::factory(),
+            'requester_id' => null,
         ];
     }
 }

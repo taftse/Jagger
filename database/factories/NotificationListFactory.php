@@ -16,17 +16,15 @@ class NotificationListFactory extends Factory
     public function definition(): array
     {
         return [
-            'subscriber' => User::factory(),
-            'notificationtype' => fake()->randomElement(['email', 'sms']),
+            'user_id' => User::factory(),
+            'notification_type' => fake()->randomElement(['email', 'sms']),
             'type' => fake()->randomElement(['provider', 'federation', 'user']),
-            'provider' => null,
-            'federation' => null,
+            'provider_id' => null,
+            'federation_id' => null,
             'email' => fake()->optional()->safeEmail(),
             'phone' => fake()->optional()->phoneNumber(),
-            'isenabled' => true,
-            'isapproved' => false,
-            'created' => now(),
-            'updated' => now(),
+            'is_enabled' => true,
+            'is_approved' => false,
         ];
     }
 }

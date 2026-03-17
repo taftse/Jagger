@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Database\Factories\AclFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Acl extends Model
 {
     /** @use HasFactory<AclFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'acl';
 
@@ -26,6 +27,9 @@ class Acl extends Model
     protected function casts(): array
     {
         return [
+            'resource_id' => 'string',
+            'role_id' => 'string',
+            'action' => 'string',
             'access' => 'boolean',
         ];
     }
@@ -37,6 +41,6 @@ class Acl extends Model
 
     public function role(): BelongsTo
     {
-        return $this->belongsTo(AclRole::class, 'role_id');
+        return $this->belongsTo(Role::class, 'role_id');
     }
 }

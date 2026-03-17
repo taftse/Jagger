@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use Database\Factories\StaticpageFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Staticpage extends Model
 {
     /** @use HasFactory<StaticpageFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'staticpage';
 
